@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Giulia Beauty — Hero Cinématique</title>
+<meta name="description" content="Hero cinématique immersif dark luxe ambré pour Giulia Beauty, animations GSAP." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#120C08;          /* espresso profond */
+    --bg2:#241708;
+    --amber:#C98A3B;
+    --amber-lite:#D9A152;
+    --gold:#E8C07D;
+    --cream:#F3E7D3;       /* texte clair */
+    --muted:#B59B78;
+    --line:rgba(232,192,125,.22);
+    --btn-dark:#0C0906;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Jost',system-ui,sans-serif;
+    background:var(--bg);color:var(--cream);
+    min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  }
+  .serif{font-family:'Cormorant Garamond',Georgia,serif}
+  a{color:inherit;text-decoration:none}
+
+  /* ===== HERO SHELL ===== */
+  .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+  /* ---- Scène animée (fond immersif) ---- */
+  .scene{position:absolute;inset:0;z-index:0;overflow:hidden}
+  .scene .liquid{
+    position:absolute;inset:-12%;
+    background:
+      radial-gradient(60% 50% at 62% 55%, rgba(217,161,82,.55), transparent 60%),
+      radial-gradient(45% 40% at 40% 38%, rgba(232,192,125,.35), transparent 65%),
+      radial-gradient(120% 120% at 70% 80%, #3A2410 0%, #1A1006 45%, #0C0804 100%);
+    transform-origin:62% 55%;
+  }
+  .scene .glow{
+    position:absolute;width:60vmax;height:60vmax;left:45%;top:48%;transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(232,192,125,.35),transparent 60%);
+    filter:blur(30px);mix-blend-mode:screen;
+  }
+  .scene canvas{position:absolute;inset:0;width:100%;height:100%}
+  .scene .grain{position:absolute;inset:0;opacity:.07;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .scene .vignette{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 45%,transparent 40%,rgba(8,5,3,.75) 100%)}
+  .scene .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,6,3,.82) 0%,rgba(10,6,3,.5) 38%,transparent 62%)}
+
+  /* ---- Announcement ---- */
+  .announce{position:relative;z-index:3;text-align:center;font-size:.72rem;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold);padding:.7rem;border-bottom:1px solid var(--line);
+    background:rgba(12,8,5,.4);backdrop-filter:blur(6px)}
+  .announce a{text-decoration:underline;text-underline-offset:3px}
+
+  /* ---- Nav ---- */
+  nav{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;
+    padding:1.3rem clamp(1.5rem,5vw,4rem)}
+  .brand{line-height:.95;text-align:left}
+  .brand .b1{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;letter-spacing:.14em}
+  .brand .b2{font-family:'Jost',sans-serif;font-size:.7rem;font-weight:400;letter-spacing:.5em;color:var(--muted);padding-left:.2em}
+  .menu{display:flex;gap:2.2rem;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;font-weight:400}
+  .menu a{position:relative;color:var(--cream);opacity:.85;padding:.3rem 0;transition:opacity .3s}
+  .menu a:hover{opacity:1}
+  .menu a.active::after,.menu a:hover::after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:1px;background:var(--gold)}
+  .nav-icons{display:flex;gap:1.4rem;font-size:1rem;opacity:.85}
+  .burger{display:none;font-size:1.3rem;background:none;border:none;color:var(--cream);cursor:pointer}
+
+  /* ---- Hero content ---- */
+  .hero-body{position:relative;z-index:2;flex:1;display:flex;align-items:center;
+    padding:0 clamp(1.5rem,6vw,5rem)}
+  .hero-inner{max-width:560px}
+  .kicker{font-size:.78rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+  .hero-inner h1{font-family:'Cormorant Garamond',serif;font-weight:500;
+    font-size:clamp(3.2rem,8vw,6.2rem);line-height:.95;letter-spacing:.01em;margin-bottom:1.6rem}
+  .hero-inner h1 .no{font-style:italic;color:var(--gold)}
+  .hero-inner p{color:var(--muted);font-size:1.05rem;line-height:1.7;max-width:42ch;margin-bottom:2.4rem;font-weight:300}
+  .actions{display:flex;gap:1rem;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2.1rem;font-size:.78rem;
+    letter-spacing:.2em;text-transform:uppercase;font-weight:500;cursor:pointer;border:1px solid transparent;
+    transition:transform .3s ease,background .3s ease,color .3s ease,box-shadow .3s ease}
+  .btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#2A1A08;box-shadow:0 10px 30px rgba(201,138,59,.3)}
+  .btn-gold:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,138,59,.45)}
+  .btn-dark{background:var(--btn-dark);color:var(--cream);border-color:var(--line)}
+  .btn-dark:hover{transform:translateY(-3px);background:#1a120a}
+
+  /* side arrows + dots */
+  .arrow{position:absolute;z-index:3;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:999px;
+    border:1px solid var(--line);background:rgba(12,8,5,.3);color:var(--cream);display:grid;place-items:center;
+    cursor:pointer;transition:background .3s,transform .3s;backdrop-filter:blur(4px)}
+  .arrow:hover{background:rgba(232,192,125,.15)}
+  .arrow.left{left:clamp(.6rem,2vw,1.4rem)} .arrow.right{right:clamp(.6rem,2vw,1.4rem)}
+  .dots{position:absolute;z-index:3;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:.7rem}
+  .dots i{width:7px;height:7px;border-radius:999px;background:rgba(243,231,211,.35);transition:width .3s,background .3s;cursor:pointer}
+  .dots i.on{width:26px;background:var(--gold)}
+
+  /* floating product label bottom-right */
+  .plabel{position:absolute;z-index:3;right:clamp(1.5rem,5vw,4rem);bottom:2rem;text-align:right;
+    display:flex;align-items:center;gap:.9rem}
+  .plabel .meta{line-height:1.3}
+  .plabel .meta small{display:block;color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+  .plabel .meta strong{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600}
+  .plabel .price{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold)}
+
+  @media(max-width:820px){
+    .menu,.nav-icons{display:none}
+    .burger{display:block}
+    .plabel{display:none}
+    .hero-body{align-items:flex-end;padding-bottom:5.5rem}
+    .scene .shade{background:linear-gradient(0deg,rgba(10,6,3,.9) 0%,rgba(10,6,3,.4) 55%,transparent 80%)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <!-- Scène immersive animée -->
+  <div class="scene">
+    <div class="liquid" id="liquid"></div>
+    <div class="glow" id="glow"></div>
+    <canvas id="particles"></canvas>
+    <div class="grain"></div>
+    <div class="vignette"></div>
+    <div class="shade"></div>
+  </div>
+
+  <div class="announce">Édition limitée · Livraison offerte dès 49€ — <a href="#">Découvrir</a></div>
+
+  <nav>
+    <div class="brand"><div class="b1">GIULIA</div><div class="b2">BEAUTY</div></div>
+    <div class="menu">
+      <a href="#" class="active">Accueil</a>
+      <a href="#">Soins</a>
+      <a href="#">Parfums</a>
+      <a href="#">Rituels</a>
+      <a href="#">Histoire</a>
+    </div>
+    <div class="nav-icons"><span>⌕</span><span>♡</span><span>⛬</span></div>
+    <button class="burger" aria-label="Menu">☰</button>
+  </nav>
+
+  <div class="hero-body">
+    <div class="hero-inner">
+      <div class="kicker" data-rv>Premium Skincare</div>
+      <h1 data-rv>Sérum<br>Éclat <span class="no serif">N°07</span></h1>
+      <p data-rv>Une essence précieuse à la rose de Damas et à l'or végétal. Révélez un teint lumineux, nourri en profondeur — la beauté consciente, sublimée.</p>
+      <div class="actions" data-rv>
+        <a href="#" class="btn btn-gold">Découvrir le N°07</a>
+        <a href="#" class="btn btn-dark">Voir la collection</a>
+      </div>
+    </div>
+  </div>
+
+  <button class="arrow left" aria-label="Précédent">‹</button>
+  <button class="arrow right" aria-label="Suivant">›</button>
+
+  <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+
+  <div class="plabel">
+    <div class="meta"><small>Best-seller · 4.9 ★</small><strong>Sérum Éclat Rosé</strong></div>
+    <div class="price">34€</div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Particules flottantes (pétales + gouttes d'or) ---------- */
+const cv = document.getElementById('particles');
+const ctx = cv.getContext('2d');
+let W,H,parts=[];
+function resize(){ W=cv.width=innerWidth*devicePixelRatio; H=cv.height=innerHeight*devicePixelRatio; }
+resize(); addEventListener('resize', resize);
+
+function rnd(a,b){return a+Math.random()*(b-a)}
+function makeParts(){
+  parts=[];
+  const n = innerWidth<720?18:34;
+  for(let i=0;i<n;i++){
+    const petal = Math.random()<0.45;
+    parts.push({
+      x:rnd(0,W), y:rnd(0,H),
+      r: petal?rnd(10,26)*devicePixelRatio:rnd(2,6)*devicePixelRatio,
+      vy: rnd(.1,.5)*devicePixelRatio, vx: rnd(-.25,.25)*devicePixelRatio,
+      rot: rnd(0,6.28), vr: rnd(-.01,.01),
+      petal, a: petal?rnd(.25,.6):rnd(.4,.9)
+    });
+  }
+}
+makeParts(); addEventListener('resize', makeParts);
+
+function drawPetal(p){
+  ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=p.a;
+  const g=ctx.createLinearGradient(-p.r,0,p.r,0);
+  g.addColorStop(0,'#C77'); g.addColorStop(1,'#E8B4A0');
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  ctx.ellipse(0,0,p.r*.55,p.r,0,0,6.28); ctx.fill();
+  ctx.restore();
+}
+function drawDrop(p){
+  ctx.save(); ctx.globalAlpha=p.a;
+  const g=ctx.createRadialGradient(p.x-p.r*.3,p.y-p.r*.3,0,p.x,p.y,p.r);
+  g.addColorStop(0,'#FFF3D6'); g.addColorStop(.5,'#E8C07D'); g.addColorStop(1,'rgba(201,138,59,.2)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.28); ctx.fill();
+  ctx.restore();
+}
+function tick(){
+  ctx.clearRect(0,0,W,H);
+  for(const p of parts){
+    p.y -= p.vy; p.x += p.vx; p.rot += p.vr;
+    if(p.y < -40*devicePixelRatio){ p.y = H+30*devicePixelRatio; p.x = rnd(0,W); }
+    p.petal ? drawPetal(p) : drawDrop(p);
+  }
+  if(!reduce) requestAnimationFrame(tick);
+}
+if(!reduce) tick(); else { /* une passe statique */ for(const p of parts) p.petal?drawPetal(p):drawDrop(p); }
+
+/* ---------- Zoom lent immersif (plongée dans le liquide) ---------- */
+if(!reduce){
+  gsap.to('#liquid',{scale:1.18,duration:14,ease:'sine.inOut',yoyo:true,repeat:-1});
+  gsap.to('#glow',{scale:1.25,opacity:.8,duration:6,ease:'sine.inOut',yoyo:true,repeat:-1});
+
+  /* Reveal d'entrée (stagger) */
+  gsap.from('[data-rv]',{opacity:0,y:30,duration:.9,stagger:.14,ease:'power3.out',delay:.2});
+  gsap.from('nav,.announce',{opacity:0,y:-14,duration:.8,ease:'power2.out'});
+  gsap.from('.plabel,.dots,.arrow',{opacity:0,duration:1,delay:.8,ease:'power2.out'});
+
+  /* Parallaxe à la souris */
+  const sc = document.querySelector('.scene');
+  addEventListener('mousemove', e=>{
+    const dx=(e.clientX/innerWidth-.5), dy=(e.clientY/innerHeight-.5);
+    gsap.to('#liquid',{xPercent:dx*-4,yPercent:dy*-4,duration:1,ease:'power2.out',overwrite:'auto'});
+    gsap.to('#glow',{x:dx*40,y:dy*40,duration:1,ease:'power2.out',overwrite:'auto'});
+  });
+}
+
+/* ---------- Carrousel (points) ---------- */
+const dots=[...document.querySelectorAll('.dots i')];
+let idx=0;
+function go(i){ idx=(i+dots.length)%dots.length; dots.forEach((d,k)=>d.classList.toggle('on',k===idx)); }
+dots.forEach((d,i)=>d.addEventListener('click',()=>go(i)));
+document.querySelector('.arrow.right').onclick=()=>go(idx+1);
+document.querySelector('.arrow.left').onclick=()=>go(idx-1);
+if(!reduce) setInterval(()=>go(idx+1),5000);
+</script>
+</body>
+</html>
