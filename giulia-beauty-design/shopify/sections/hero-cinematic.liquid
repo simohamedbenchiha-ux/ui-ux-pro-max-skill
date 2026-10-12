@@ -1,0 +1,191 @@
+{%- comment -%}
+  Giulia Beauty — Hero cinématique (dark luxe ambré)
+  Section Shopify éditable. Fond : vidéo (si fournie) sinon scène animée (canvas + GSAP).
+  Déposez ce fichier dans sections/ puis ajoutez la section depuis l'éditeur de thème.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign has_video = false
+  if s.bg_video != blank or s.bg_video_url != blank
+    assign has_video = true
+  endif
+-%}
+
+<style>
+  #cine-{{ section.id }}{
+    --bg:{{ s.color_bg }};
+    --amber:{{ s.color_amber }};
+    --gold:{{ s.color_gold }};
+    --cream:{{ s.color_cream }};
+    --muted:{{ s.color_muted }};
+    --btn-dark:{{ s.color_btn_dark }};
+    --line:{{ s.color_gold }}38;
+    --h:{{ s.height }}vh;
+  }
+  #cine-{{ section.id }}{position:relative;min-height:var(--h);display:flex;flex-direction:column;overflow:hidden;background:var(--bg);color:var(--cream);font-family:'Jost',var(--font-body-family,sans-serif)}
+  #cine-{{ section.id }} .cserif{font-family:'Cormorant Garamond',var(--font-heading-family,Georgia),serif}
+  #cine-{{ section.id }} a{color:inherit;text-decoration:none}
+  #cine-{{ section.id }} .scene{position:absolute;inset:0;z-index:0;overflow:hidden}
+  #cine-{{ section.id }} .scene video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  #cine-{{ section.id }} .liquid{position:absolute;inset:-12%;transform-origin:62% 55%;
+    background:
+      radial-gradient(60% 50% at 62% 55%, {{ s.color_amber }}8c, transparent 60%),
+      radial-gradient(45% 40% at 40% 38%, {{ s.color_gold }}59, transparent 65%),
+      radial-gradient(120% 120% at 70% 80%, #3A2410 0%, #1A1006 45%, #0C0804 100%);}
+  #cine-{{ section.id }} .glow{position:absolute;width:60vmax;height:60vmax;left:45%;top:48%;transform:translate(-50%,-50%);
+    background:radial-gradient(circle,{{ s.color_gold }}59,transparent 60%);filter:blur(30px);mix-blend-mode:screen}
+  #cine-{{ section.id }} canvas{position:absolute;inset:0;width:100%;height:100%}
+  #cine-{{ section.id }} .vignette{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 45%,transparent 40%,rgba(8,5,3,.75) 100%)}
+  #cine-{{ section.id }} .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,6,3,.82) 0%,rgba(10,6,3,.5) 38%,transparent 62%)}
+  #cine-{{ section.id }} .wrap{position:relative;z-index:2;flex:1;display:flex;align-items:center;padding:0 clamp(1.5rem,6vw,5rem)}
+  #cine-{{ section.id }} .inner{max-width:560px}
+  #cine-{{ section.id }} .kicker{font-size:.78rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+  #cine-{{ section.id }} h2.title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(3rem,7.5vw,6rem);line-height:.95;margin:0 0 1.5rem}
+  #cine-{{ section.id }} h2.title em{font-style:italic;color:var(--gold)}
+  #cine-{{ section.id }} .body{color:var(--muted);font-size:1.05rem;line-height:1.7;max-width:42ch;margin-bottom:2.2rem;font-weight:300}
+  #cine-{{ section.id }} .actions{display:flex;gap:1rem;flex-wrap:wrap}
+  #cine-{{ section.id }} .btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2.1rem;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;cursor:pointer;border:1px solid transparent;transition:transform .3s,box-shadow .3s,background .3s}
+  #cine-{{ section.id }} .btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#2A1A08;box-shadow:0 10px 30px {{ s.color_amber }}4d}
+  #cine-{{ section.id }} .btn-gold:hover{transform:translateY(-3px);box-shadow:0 16px 40px {{ s.color_amber }}73}
+  #cine-{{ section.id }} .btn-dark{background:var(--btn-dark);color:var(--cream);border:1px solid var(--line)}
+  #cine-{{ section.id }} .btn-dark:hover{transform:translateY(-3px);background:#1a120a}
+  #cine-{{ section.id }} .plabel{position:absolute;z-index:3;right:clamp(1.5rem,5vw,4rem);bottom:2rem;display:flex;align-items:center;gap:.9rem;text-align:right}
+  #cine-{{ section.id }} .plabel small{display:block;color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+  #cine-{{ section.id }} .plabel strong{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600}
+  #cine-{{ section.id }} .plabel .price{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold)}
+  @media(max-width:820px){
+    #cine-{{ section.id }} .plabel{display:none}
+    #cine-{{ section.id }} .wrap{align-items:flex-end;padding-bottom:4rem}
+    #cine-{{ section.id }} .shade{background:linear-gradient(0deg,rgba(10,6,3,.9) 0%,rgba(10,6,3,.4) 55%,transparent 80%)}
+  }
+  @media(prefers-reduced-motion:reduce){#cine-{{ section.id }} *{animation:none!important;transition:none!important}}
+</style>
+
+<section id="cine-{{ section.id }}"
+         data-cine
+         data-animated="{% if has_video %}false{% else %}true{% endif %}"
+         data-parallax="{{ s.enable_parallax }}">
+
+  <div class="scene">
+    {%- if s.bg_video != blank -%}
+      {{ s.bg_video | video_tag: image_size: '1600x', autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+    {%- elsif s.bg_video_url != blank -%}
+      <video autoplay muted loop playsinline {% if s.poster != blank %}poster="{{ s.poster | image_url: width: 1600 }}"{% endif %}>
+        <source src="{{ s.bg_video_url }}" type="video/mp4">
+      </video>
+    {%- else -%}
+      <div class="liquid" data-liquid></div>
+      <div class="glow" data-glow></div>
+      <canvas data-canvas></canvas>
+    {%- endif -%}
+    <div class="vignette"></div>
+    <div class="shade"></div>
+  </div>
+
+  <div class="wrap">
+    <div class="inner">
+      {%- if s.kicker != blank -%}<div class="kicker" data-rv>{{ s.kicker }}</div>{%- endif -%}
+      {%- if s.title != blank -%}<h2 class="title" data-rv>{{ s.title }}</h2>{%- endif -%}
+      {%- if s.body != blank -%}<div class="body" data-rv>{{ s.body }}</div>{%- endif -%}
+      <div class="actions" data-rv>
+        {%- if s.btn1_label != blank -%}<a class="btn btn-gold" href="{{ s.btn1_link | default: '#' }}">{{ s.btn1_label }}</a>{%- endif -%}
+        {%- if s.btn2_label != blank -%}<a class="btn btn-dark" href="{{ s.btn2_link | default: '#' }}">{{ s.btn2_label }}</a>{%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- if s.pl_name != blank -%}
+  <div class="plabel" data-rv>
+    <div><small>{{ s.pl_meta }}</small><strong>{{ s.pl_name }}</strong></div>
+    {%- if s.pl_price != blank -%}<div class="price">{{ s.pl_price }}</div>{%- endif -%}
+  </div>
+  {%- endif -%}
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script>
+(function(){
+  function init(root){
+    if(root.dataset.cineInit) return; root.dataset.cineInit='1';
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var g = window.gsap;
+
+    // Scène animée (seulement si pas de vidéo)
+    if(root.dataset.animated === 'true'){
+      var cv = root.querySelector('[data-canvas]');
+      if(cv){
+        var ctx = cv.getContext('2d'), W,H,parts=[], dpr=window.devicePixelRatio||1;
+        function size(){ var r=root.getBoundingClientRect(); W=cv.width=r.width*dpr; H=cv.height=r.height*dpr; }
+        function rnd(a,b){return a+Math.random()*(b-a)}
+        function make(){ parts=[]; var n=innerWidth<720?16:30;
+          for(var i=0;i<n;i++){var p=Math.random()<.45;
+            parts.push({x:rnd(0,W),y:rnd(0,H),r:p?rnd(10,26)*dpr:rnd(2,6)*dpr,vy:rnd(.1,.5)*dpr,vx:rnd(-.25,.25)*dpr,rot:rnd(0,6.28),vr:rnd(-.01,.01),petal:p,a:p?rnd(.25,.6):rnd(.4,.9)});}}
+        function petal(p){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=p.a;var gr=ctx.createLinearGradient(-p.r,0,p.r,0);gr.addColorStop(0,'#C77');gr.addColorStop(1,'#E8B4A0');ctx.fillStyle=gr;ctx.beginPath();ctx.ellipse(0,0,p.r*.55,p.r,0,0,6.28);ctx.fill();ctx.restore();}
+        function drop(p){ctx.save();ctx.globalAlpha=p.a;var gr=ctx.createRadialGradient(p.x-p.r*.3,p.y-p.r*.3,0,p.x,p.y,p.r);gr.addColorStop(0,'#FFF3D6');gr.addColorStop(.5,'#E8C07D');gr.addColorStop(1,'rgba(201,138,59,.2)');ctx.fillStyle=gr;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.28);ctx.fill();ctx.restore();}
+        size(); make(); addEventListener('resize',function(){size();make();});
+        function tick(){ctx.clearRect(0,0,W,H);for(var i=0;i<parts.length;i++){var p=parts[i];p.y-=p.vy;p.x+=p.vx;p.rot+=p.vr;if(p.y<-40*dpr){p.y=H+30*dpr;p.x=rnd(0,W);}p.petal?petal(p):drop(p);}if(!reduce)requestAnimationFrame(tick);}
+        if(!reduce) tick(); else parts.forEach(function(p){p.petal?petal(p):drop(p);});
+      }
+      if(g && !reduce){
+        var liq=root.querySelector('[data-liquid]'), gl=root.querySelector('[data-glow]');
+        if(liq) g.to(liq,{scale:1.18,duration:14,ease:'sine.inOut',yoyo:true,repeat:-1});
+        if(gl) g.to(gl,{scale:1.25,opacity:.85,duration:6,ease:'sine.inOut',yoyo:true,repeat:-1});
+        if(root.dataset.parallax==='true'){
+          addEventListener('mousemove',function(e){var dx=e.clientX/innerWidth-.5,dy=e.clientY/innerHeight-.5;
+            if(liq) g.to(liq,{xPercent:dx*-4,yPercent:dy*-4,duration:1,ease:'power2.out',overwrite:'auto'});
+            if(gl) g.to(gl,{x:dx*40,y:dy*40,duration:1,ease:'power2.out',overwrite:'auto'});});
+        }
+      }
+    }
+
+    // Reveal d'entrée
+    if(g && !reduce){
+      g.from(root.querySelectorAll('[data-rv]'),{opacity:0,y:30,duration:.9,stagger:.14,ease:'power3.out',delay:.15});
+    }
+  }
+  function boot(){ document.querySelectorAll('[data-cine]').forEach(init); }
+  if(window.gsap){ boot(); } else { window.addEventListener('load', boot); setTimeout(boot, 1200); }
+  // Éditeur de thème : réinitialise au rechargement de section
+  document.addEventListener('shopify:section:load', function(e){ var el=e.target.querySelector('[data-cine]'); if(el){el.dataset.cineInit='';init(el);} });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero cinématique",
+  "tag": "section",
+  "class": "section-hero-cinematic",
+  "settings": [
+    { "type": "header", "content": "Contenu" },
+    { "type": "text", "id": "kicker", "label": "Sur-titre", "default": "Premium Skincare" },
+    { "type": "inline_richtext", "id": "title", "label": "Titre (utilisez <em>…</em> pour la couleur or)", "default": "Sérum<br>Éclat <em>N°07</em>" },
+    { "type": "richtext", "id": "body", "label": "Texte", "default": "<p>Une essence précieuse à la rose de Damas et à l'or végétal. Révélez un teint lumineux, nourri en profondeur.</p>" },
+    { "type": "header", "content": "Boutons" },
+    { "type": "text", "id": "btn1_label", "label": "Bouton 1 — texte", "default": "Découvrir le N°07" },
+    { "type": "url", "id": "btn1_link", "label": "Bouton 1 — lien" },
+    { "type": "text", "id": "btn2_label", "label": "Bouton 2 — texte", "default": "Voir la collection" },
+    { "type": "url", "id": "btn2_link", "label": "Bouton 2 — lien" },
+    { "type": "header", "content": "Étiquette produit (bas droite)" },
+    { "type": "text", "id": "pl_meta", "label": "Mention", "default": "Best-seller · 4.9 ★" },
+    { "type": "text", "id": "pl_name", "label": "Nom produit", "default": "Sérum Éclat Rosé" },
+    { "type": "text", "id": "pl_price", "label": "Prix", "default": "34€" },
+    { "type": "header", "content": "Fond — Vidéo (prioritaire)" },
+    { "type": "video", "id": "bg_video", "label": "Vidéo (hébergée Shopify)" },
+    { "type": "text", "id": "bg_video_url", "label": "…ou URL d'une vidéo .mp4" },
+    { "type": "image_picker", "id": "poster", "label": "Image poster (pendant chargement vidéo)" },
+    { "type": "paragraph", "content": "Si aucune vidéo n'est définie, une scène animée (pétales + or) s'affiche automatiquement." },
+    { "type": "header", "content": "Animation" },
+    { "type": "checkbox", "id": "enable_parallax", "label": "Parallaxe à la souris", "default": true },
+    { "type": "range", "id": "height", "label": "Hauteur", "min": 60, "max": 100, "step": 5, "unit": "vh", "default": 100 },
+    { "type": "header", "content": "Couleurs" },
+    { "type": "color", "id": "color_bg", "label": "Fond", "default": "#120C08" },
+    { "type": "color", "id": "color_amber", "label": "Ambre", "default": "#C98A3B" },
+    { "type": "color", "id": "color_gold", "label": "Or", "default": "#E8C07D" },
+    { "type": "color", "id": "color_cream", "label": "Texte clair", "default": "#F3E7D3" },
+    { "type": "color", "id": "color_muted", "label": "Texte secondaire", "default": "#B59B78" },
+    { "type": "color", "id": "color_btn_dark", "label": "Bouton sombre", "default": "#0C0906" }
+  ],
+  "presets": [ { "name": "Hero cinématique" } ]
+}
+{% endschema %}
