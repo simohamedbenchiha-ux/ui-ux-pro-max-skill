@@ -34,7 +34,7 @@
       {%- for block in section.blocks -%}
         {%- assign stars = block.settings.rating | default: 5 -%}
         <div class="quote rv" {{ block.shopify_attributes }}>
-          <div class="stars">{% for i in (1..stars) %}★{% endfor %}{% assign empty = 5 | minus: stars %}{% for i in (1..empty) %}☆{% endfor %}</div>
+          <div class="stars">{% for i in (1..stars) %}★{% endfor %}{% assign remaining = 5 | minus: stars %}{% if remaining > 0 %}{% for i in (1..remaining) %}☆{% endfor %}{% endif %}</div>
           <p>{{ block.settings.quote }}</p>
           <div class="who">
             {%- if block.settings.avatar -%}<img class="av" src="{{ block.settings.avatar | image_url: width: 88 }}" alt="{{ block.settings.name | escape }}" width="44" height="44">{%- else -%}<div class="av"></div>{%- endif -%}

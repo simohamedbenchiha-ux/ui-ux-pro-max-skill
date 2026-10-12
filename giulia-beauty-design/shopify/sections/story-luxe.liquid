@@ -29,7 +29,7 @@
 <section id="st-{{ section.id }}">
   <div class="swrap">
     <div class="sgrid">
-      <div class="svis rv">{%- if s.image -%}<img src="{{ s.image | image_url: width: 900 }}" alt="{{ s.image.alt | escape }}" loading="lazy">{%- endif -%}</div>
+      <div class="svis rv">{%- if s.image -%}<img src="{{ s.image | image_url: width: 900 }}" alt="{{ s.image.alt | escape }}" width="{{ s.image.width }}" height="{{ s.image.height }}" loading="lazy">{%- endif -%}</div>
       <div>
         {%- if s.eyebrow != blank -%}<div class="eyebrow rv">{{ s.eyebrow }}</div>{%- endif -%}
         {%- if s.title != blank -%}<h2 class="rv">{{ s.title }}</h2>{%- endif -%}

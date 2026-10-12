@@ -72,7 +72,7 @@
             {%- if s.show_button -%}
             <div class="pbtn">
               {%- if product.available -%}
-                <form method="post" action="/cart/add">
+                <form method="post" action="{{ routes.cart_add_url }}">
                   <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                   <button class="btn" type="submit">{{ s.button_label }}</button>
                 </form>
