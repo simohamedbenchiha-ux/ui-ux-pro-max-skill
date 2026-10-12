@@ -1,0 +1,66 @@
+{%- comment -%}
+  Giulia Beauty — Newsletter (dark luxe). Branché sur le formulaire client Shopify
+  (inscription aux e-mails marketing).
+{%- endcomment -%}
+
+{%- assign s = section.settings -%}
+
+<style>
+  #nl-{{ section.id }}{--bg:{{ s.color_bg }};--gold:{{ s.color_gold }};--amber:{{ s.color_amber }};--cream:{{ s.color_cream }};--muted:{{ s.color_muted }};--line:{{ s.color_gold }}2e;
+    background:var(--bg);color:var(--cream);padding:clamp(4rem,8vw,7rem) 0;font-family:'Jost',var(--font-body-family,sans-serif)}
+  #nl-{{ section.id }} .nwrap{max-width:1000px;margin:0 auto;padding:0 clamp(1.3rem,4vw,3rem)}
+  #nl-{{ section.id }} .panel{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:6px;padding:clamp(2.6rem,6vw,4.6rem);text-align:center;background:radial-gradient(circle at 50% 0%,#241708,{{ s.color_bg }} 70%)}
+  #nl-{{ section.id }} .panel::before{content:'';position:absolute;width:340px;height:340px;border-radius:50%;background:var(--amber);filter:blur(90px);opacity:.3;top:-140px;right:-40px}
+  #nl-{{ section.id }} .eyebrow{font-size:.72rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);position:relative}
+  #nl-{{ section.id }} h2{font-family:'Cormorant Garamond',var(--font-heading-family,serif);font-weight:500;font-size:clamp(2rem,4.5vw,3.2rem);position:relative;margin:.5rem 0}
+  #nl-{{ section.id }} .panel p{color:var(--muted);max-width:44ch;margin:.6rem auto 2rem;position:relative}
+  #nl-{{ section.id }} form{display:flex;gap:.6rem;max-width:480px;margin:0 auto;position:relative;flex-wrap:wrap;justify-content:center}
+  #nl-{{ section.id }} input[type=email]{flex:1;min-width:220px;padding:1rem 1.3rem;border:1px solid var(--line);background:#0C0906;color:var(--cream);font-family:inherit}
+  #nl-{{ section.id }} input::placeholder{color:var(--muted)}
+  #nl-{{ section.id }} input:focus{outline:1px solid var(--gold)}
+  #nl-{{ section.id }} button{padding:1rem 2.1rem;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--amber));color:#2A1A08;transition:transform .3s,box-shadow .3s}
+  #nl-{{ section.id }} button:hover{transform:translateY(-2px);box-shadow:0 14px 34px {{ s.color_amber }}59}
+  #nl-{{ section.id }} .ok{position:relative;margin-top:1rem;color:var(--gold)}
+  @media(prefers-reduced-motion:reduce){#nl-{{ section.id }} *{animation:none!important;transition:none!important}}
+</style>
+
+<section id="nl-{{ section.id }}">
+  <div class="nwrap">
+    <div class="panel">
+      {%- if s.eyebrow != blank -%}<div class="eyebrow">{{ s.eyebrow }}</div>{%- endif -%}
+      {%- if s.title != blank -%}<h2>{{ s.title }}</h2>{%- endif -%}
+      {%- if s.subtitle != blank -%}<p>{{ s.subtitle }}</p>{%- endif -%}
+
+      {%- form 'customer' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email" name="contact[email]" placeholder="{{ s.placeholder }}" aria-label="E-mail" required>
+        <button type="submit">{{ s.button_label }}</button>
+        {%- if form.posted_successfully? -%}
+          <div class="ok">{{ s.success_text }}</div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter dark luxe",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Le cercle Giulia" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Rejoignez le cercle Giulia" },
+    { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "-15% sur votre première commande et accès prioritaire aux nouveautés." },
+    { "type": "text", "id": "placeholder", "label": "Placeholder e-mail", "default": "Votre adresse e-mail" },
+    { "type": "text", "id": "button_label", "label": "Texte bouton", "default": "Je m'inscris" },
+    { "type": "text", "id": "success_text", "label": "Message de succès", "default": "Merci ! Vérifiez votre boîte mail." },
+    { "type": "header", "content": "Couleurs" },
+    { "type": "color", "id": "color_bg", "label": "Fond", "default": "#120C08" },
+    { "type": "color", "id": "color_gold", "label": "Or", "default": "#E8C07D" },
+    { "type": "color", "id": "color_amber", "label": "Ambre", "default": "#C98A3B" },
+    { "type": "color", "id": "color_cream", "label": "Texte clair", "default": "#F3E7D3" },
+    { "type": "color", "id": "color_muted", "label": "Texte secondaire", "default": "#B59B78" }
+  ],
+  "presets": [ { "name": "Newsletter dark luxe" } ]
+}
+{% endschema %}

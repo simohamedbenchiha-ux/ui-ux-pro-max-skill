@@ -1,0 +1,137 @@
+{%- comment -%}
+  Giulia Beauty — Collection (dark luxe). Affiche les vrais produits d'une
+  collection choisie dans l'éditeur de thème. Reveal au scroll via GSAP si présent.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign col = collections[s.collection]
+  assign limit = s.count
+-%}
+
+<style>
+  #col-{{ section.id }}{--bg:{{ s.color_bg }};--card:{{ s.color_card }};--gold:{{ s.color_gold }};--amber:{{ s.color_amber }};--cream:{{ s.color_cream }};--muted:{{ s.color_muted }};--line:{{ s.color_gold }}2e;
+    background:var(--bg);color:var(--cream);padding:clamp(4rem,8vw,7rem) 0;font-family:'Jost',var(--font-body-family,sans-serif)}
+  #col-{{ section.id }} .cwrap{max-width:1240px;margin:0 auto;padding:0 clamp(1.3rem,4vw,3rem)}
+  #col-{{ section.id }} .chead{text-align:center;max-width:640px;margin:0 auto clamp(2.2rem,5vw,3.5rem)}
+  #col-{{ section.id }} .eyebrow{font-size:.72rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold)}
+  #col-{{ section.id }} h2{font-family:'Cormorant Garamond',var(--font-heading-family,serif);font-weight:500;font-size:clamp(2rem,4.6vw,3.4rem);margin:.6rem 0;line-height:1.05}
+  #col-{{ section.id }} .chead p{color:var(--muted)}
+  #col-{{ section.id }} .cgrid{display:grid;grid-template-columns:repeat({{ s.cols }},1fr);gap:1.4rem}
+  #col-{{ section.id }} .prod{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:4px;overflow:hidden;transition:transform .4s,box-shadow .4s,border-color .4s}
+  #col-{{ section.id }} .prod:hover{transform:translateY(-8px);box-shadow:0 26px 50px rgba(0,0,0,.5);border-color:{{ s.color_gold }}66}
+  #col-{{ section.id }} .thumb{aspect-ratio:1;position:relative;overflow:hidden;background:#241708}
+  #col-{{ section.id }} .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s}
+  #col-{{ section.id }} .prod:hover .thumb img{transform:scale(1.06)}
+  #col-{{ section.id }} .badge{position:absolute;top:12px;left:12px;background:rgba(12,8,5,.72);backdrop-filter:blur(4px);color:var(--gold);font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.35rem .7rem;border:1px solid var(--line)}
+  #col-{{ section.id }} .pbody{padding:1.1rem 1.2rem 1.4rem;display:flex;flex-direction:column;flex:1}
+  #col-{{ section.id }} .cat{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  #col-{{ section.id }} .prod h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;margin:.25rem 0 .5rem;line-height:1.2}
+  #col-{{ section.id }} .price{display:flex;align-items:center;gap:.5rem;font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--gold)}
+  #col-{{ section.id }} .price del{color:var(--muted);font-size:.85rem}
+  #col-{{ section.id }} .pbtn{margin-top:auto;padding-top:.9rem}
+  #col-{{ section.id }} .btn{display:inline-flex;width:100%;justify-content:center;padding:.85rem 1rem;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;background:linear-gradient(135deg,var(--gold),var(--amber));color:#2A1A08;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s}
+  #col-{{ section.id }} .btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px {{ s.color_amber }}59}
+  #col-{{ section.id }} .cmore{text-align:center;margin-top:2.4rem}
+  #col-{{ section.id }} .cmore a{display:inline-flex;padding:1rem 2.2rem;border:1px solid var(--line);color:var(--cream);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;transition:background .3s,transform .3s}
+  #col-{{ section.id }} .cmore a:hover{background:#1a120a;transform:translateY(-2px)}
+  #col-{{ section.id }} .rv{opacity:0;transform:translateY(24px)}
+  @media(max-width:900px){#col-{{ section.id }} .cgrid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){#col-{{ section.id }} .cgrid{grid-template-columns:1fr 1fr;gap:1rem}}
+  @media(prefers-reduced-motion:reduce){#col-{{ section.id }} .rv{opacity:1;transform:none}}
+</style>
+
+<section id="col-{{ section.id }}">
+  <div class="cwrap">
+    <div class="chead">
+      {%- if s.eyebrow != blank -%}<div class="eyebrow rv">{{ s.eyebrow }}</div>{%- endif -%}
+      {%- if s.title != blank -%}<h2 class="rv">{{ s.title }}</h2>{%- endif -%}
+      {%- if s.subtitle != blank -%}<p class="rv">{{ s.subtitle }}</p>{%- endif -%}
+    </div>
+
+    {%- if col and col.products.size > 0 -%}
+    <div class="cgrid">
+      {%- for product in col.products limit: limit -%}
+        {%- assign on_sale = false -%}
+        {%- if product.compare_at_price > product.price -%}{%- assign on_sale = true -%}{%- endif -%}
+        <article class="prod rv">
+          <a class="thumb" href="{{ product.url }}">
+            {%- if product.featured_image -%}
+              <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy" width="600" height="600">
+            {%- endif -%}
+            {%- if on_sale -%}<span class="badge">Promo</span>
+            {%- elsif product.tags contains 'new' or product.tags contains 'nouveau' -%}<span class="badge">Nouveau</span>{%- endif -%}
+          </a>
+          <div class="pbody">
+            {%- if product.type != blank -%}<div class="cat">{{ product.type }}</div>{%- endif -%}
+            <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+            <div class="price">
+              {{ product.price | money }}
+              {%- if on_sale -%}<del>{{ product.compare_at_price | money }}</del>{%- endif -%}
+            </div>
+            {%- if s.show_button -%}
+            <div class="pbtn">
+              {%- if product.available -%}
+                <form method="post" action="/cart/add">
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                  <button class="btn" type="submit">{{ s.button_label }}</button>
+                </form>
+              {%- else -%}
+                <a class="btn" href="{{ product.url }}" style="opacity:.6;pointer-events:none">Épuisé</a>
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+    {%- if s.show_view_all and col.url -%}
+      <div class="cmore"><a href="{{ col.url }}">{{ s.view_all_label }}</a></div>
+    {%- endif -%}
+
+    {%- else -%}
+      <div class="chead"><p>Sélectionnez une collection dans les réglages de la section.</p></div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+(function(){
+  var root=document.getElementById('col-{{ section.id }}');
+  function go(){ if(window.gsap && window.ScrollTrigger){ gsap.registerPlugin(ScrollTrigger);
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+      gsap.to(root.querySelectorAll('.rv'),{opacity:1,y:0,duration:.6,stagger:.07,ease:'power2.out',scrollTrigger:{trigger:root,start:'top 82%'}});
+    } else root.querySelectorAll('.rv').forEach(function(e){e.style.opacity=1;e.style.transform='none';});
+  } else root.querySelectorAll('.rv').forEach(function(e){e.style.opacity=1;e.style.transform='none';}); }
+  if(window.gsap) go(); else { addEventListener('load',go); setTimeout(go,1200); }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Collection dark luxe",
+  "tag": "section",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection à afficher" },
+    { "type": "range", "id": "count", "label": "Nombre de produits", "min": 2, "max": 12, "step": 1, "default": 4 },
+    { "type": "range", "id": "cols", "label": "Colonnes (desktop)", "min": 2, "max": 4, "step": 1, "default": 4 },
+    { "type": "header", "content": "Textes" },
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "La collection" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Nos essentiels" },
+    { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "Technologie beauté, rituel d'exception." },
+    { "type": "header", "content": "Boutons" },
+    { "type": "checkbox", "id": "show_button", "label": "Bouton « Ajouter au panier »", "default": true },
+    { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Ajouter" },
+    { "type": "checkbox", "id": "show_view_all", "label": "Lien « Voir tout »", "default": true },
+    { "type": "text", "id": "view_all_label", "label": "Texte « Voir tout »", "default": "Voir toute la collection" },
+    { "type": "header", "content": "Couleurs" },
+    { "type": "color", "id": "color_bg", "label": "Fond", "default": "#120C08" },
+    { "type": "color", "id": "color_card", "label": "Carte", "default": "#1E160D" },
+    { "type": "color", "id": "color_gold", "label": "Or", "default": "#E8C07D" },
+    { "type": "color", "id": "color_amber", "label": "Ambre", "default": "#C98A3B" },
+    { "type": "color", "id": "color_cream", "label": "Texte clair", "default": "#F3E7D3" },
+    { "type": "color", "id": "color_muted", "label": "Texte secondaire", "default": "#B59B78" }
+  ],
+  "presets": [ { "name": "Collection dark luxe" } ]
+}
+{% endschema %}

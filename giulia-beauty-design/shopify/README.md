@@ -46,7 +46,46 @@ l'éditeur de thème. Fond **vidéo** si tu en fournis une, sinon **scène anim�
 - Pour la perf, une **vidéo** de fond doit être courte (6–12 s), en boucle,
   compressée (H.264, ~1080p, < 4–5 Mo), muette.
 
+## Autres sections dark luxe (même installation)
+
+Dépose chaque fichier dans `sections/`, puis ajoute-le depuis *Personnaliser*.
+Toutes partagent la palette dark luxe (réglable par section).
+
+| Fichier | Rôle |
+|---|---|
+| `collection-luxe.liquid` | Grille produits depuis une **vraie collection** (choisie dans les réglages) : image, titre, prix, promo, bouton panier, « voir tout ». |
+| `story-luxe.liquid` | Histoire + blocs **engagements** répétables (icône/titre/texte). |
+| `testimonials-luxe.liquid` | **Avis** en blocs répétables (note ★, citation, nom, photo). |
+| `newsletter-luxe.liquid` | Inscription branchée sur le **formulaire client Shopify** (`{% form 'customer' %}`). |
+
+### Collections de ton store (à sélectionner dans `collection-luxe`)
+
+| Collection | Handle |
+|---|---|
+| Atelier Rosa | `belleza` |
+| Pura Luce | `cura-del-viso` |
+| Elisir Dorato | `styling-capelli` |
+| Essenza di Seta | `cura-dei-capelli` |
+| Perfezione Nude | `benessere` |
+| BELLEZA | `test` |
+
+### Ordre conseillé de la page d'accueil
+1. Hero cinématique
+2. Collection dark luxe (ex. *Perfezione Nude* ou *Elisir Dorato*)
+3. Histoire dark luxe
+4. Avis dark luxe
+5. Newsletter dark luxe
+
+> Astuce : pour animer les sections au scroll, GSAP + ScrollTrigger doivent
+> être chargés (le hero charge déjà GSAP ; ajoute ScrollTrigger dans
+> `theme.liquid` si tu utilises les sections sans le hero) :
+> ```html
+> <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+> ```
+> Sans GSAP, les sections s'affichent simplement sans animation (contenu visible).
+
 ## Aperçu HTML
 
-Le rendu statique autonome est dans
-`giulia-beauty-design/hero-cinematic.html` (ouvre-le dans un navigateur).
+Rendus statiques autonomes (ouvre dans un navigateur) :
+- `giulia-beauty-design/hero-cinematic.html` — le hero seul
+- `giulia-beauty-design/home-dark-luxe.html` — la homepage complète

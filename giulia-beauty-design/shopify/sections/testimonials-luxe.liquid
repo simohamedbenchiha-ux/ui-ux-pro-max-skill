@@ -1,0 +1,84 @@
+{%- comment -%}
+  Giulia Beauty — Avis clientes (dark luxe). Blocs répétables.
+{%- endcomment -%}
+
+{%- assign s = section.settings -%}
+
+<style>
+  #tt-{{ section.id }}{--bg:{{ s.color_bg }};--card:{{ s.color_card }};--gold:{{ s.color_gold }};--cream:{{ s.color_cream }};--muted:{{ s.color_muted }};--line:{{ s.color_gold }}2e;
+    background:var(--bg);color:var(--cream);padding:clamp(4.5rem,9vw,8rem) 0;font-family:'Jost',var(--font-body-family,sans-serif)}
+  #tt-{{ section.id }} .twrap{max-width:1240px;margin:0 auto;padding:0 clamp(1.3rem,4vw,3rem)}
+  #tt-{{ section.id }} .thead{text-align:center;max-width:640px;margin:0 auto clamp(2.2rem,5vw,3.5rem)}
+  #tt-{{ section.id }} .eyebrow{font-size:.72rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold)}
+  #tt-{{ section.id }} h2{font-family:'Cormorant Garamond',var(--font-heading-family,serif);font-weight:500;font-size:clamp(2rem,4.6vw,3.4rem);margin:.6rem 0;line-height:1.05}
+  #tt-{{ section.id }} .quotes{display:grid;grid-template-columns:repeat({{ s.cols }},1fr);gap:1.4rem}
+  #tt-{{ section.id }} .quote{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:2rem}
+  #tt-{{ section.id }} .stars{color:var(--gold);letter-spacing:.1em}
+  #tt-{{ section.id }} .quote p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.22rem;line-height:1.4;margin:.9rem 0 1.4rem}
+  #tt-{{ section.id }} .who{display:flex;gap:.8rem;align-items:center}
+  #tt-{{ section.id }} .av{width:44px;height:44px;border-radius:999px;object-fit:cover;background:radial-gradient(circle at 40% 35%,{{ s.color_gold }},#5b3a18)}
+  #tt-{{ section.id }} .who strong{font-size:.92rem}
+  #tt-{{ section.id }} .who small{display:block;color:var(--muted);font-size:.74rem}
+  #tt-{{ section.id }} .rv{opacity:0;transform:translateY(24px)}
+  @media(max-width:900px){#tt-{{ section.id }} .quotes{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){#tt-{{ section.id }} .rv{opacity:1;transform:none}}
+</style>
+
+<section id="tt-{{ section.id }}">
+  <div class="twrap">
+    <div class="thead">
+      {%- if s.eyebrow != blank -%}<div class="eyebrow rv">{{ s.eyebrow }}</div>{%- endif -%}
+      {%- if s.title != blank -%}<h2 class="rv">{{ s.title }}</h2>{%- endif -%}
+    </div>
+    <div class="quotes">
+      {%- for block in section.blocks -%}
+        {%- assign stars = block.settings.rating | default: 5 -%}
+        <div class="quote rv" {{ block.shopify_attributes }}>
+          <div class="stars">{% for i in (1..stars) %}★{% endfor %}{% assign empty = 5 | minus: stars %}{% for i in (1..empty) %}☆{% endfor %}</div>
+          <p>{{ block.settings.quote }}</p>
+          <div class="who">
+            {%- if block.settings.avatar -%}<img class="av" src="{{ block.settings.avatar | image_url: width: 88 }}" alt="{{ block.settings.name | escape }}" width="44" height="44">{%- else -%}<div class="av"></div>{%- endif -%}
+            <div><strong>{{ block.settings.name }}</strong><small>{{ block.settings.meta }}</small></div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){var root=document.getElementById('tt-{{ section.id }}');
+  function go(){if(window.gsap&&window.ScrollTrigger){gsap.registerPlugin(ScrollTrigger);
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches){gsap.to(root.querySelectorAll('.rv'),{opacity:1,y:0,duration:.6,stagger:.08,ease:'power2.out',scrollTrigger:{trigger:root,start:'top 82%'}});}
+    else root.querySelectorAll('.rv').forEach(function(e){e.style.opacity=1;e.style.transform='none';});}
+    else root.querySelectorAll('.rv').forEach(function(e){e.style.opacity=1;e.style.transform='none';});}
+  if(window.gsap)go();else{addEventListener('load',go);setTimeout(go,1200);}})();
+</script>
+
+{% schema %}
+{
+  "name": "Avis dark luxe",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Elles en parlent" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Aimé par nos clientes" },
+    { "type": "range", "id": "cols", "label": "Colonnes (desktop)", "min": 2, "max": 4, "step": 1, "default": 3 },
+    { "type": "header", "content": "Couleurs" },
+    { "type": "color", "id": "color_bg", "label": "Fond", "default": "#120C08" },
+    { "type": "color", "id": "color_card", "label": "Carte", "default": "#1E160D" },
+    { "type": "color", "id": "color_gold", "label": "Or", "default": "#E8C07D" },
+    { "type": "color", "id": "color_cream", "label": "Texte clair", "default": "#F3E7D3" },
+    { "type": "color", "id": "color_muted", "label": "Texte secondaire", "default": "#B59B78" }
+  ],
+  "blocks": [
+    { "type": "avis", "name": "Avis", "settings": [
+      { "type": "range", "id": "rating", "label": "Note", "min": 1, "max": 5, "step": 1, "default": 5 },
+      { "type": "textarea", "id": "quote", "label": "Avis", "default": "Un rituel beauté que j'adore au quotidien." },
+      { "type": "text", "id": "name", "label": "Nom", "default": "Camille L." },
+      { "type": "text", "id": "meta", "label": "Mention", "default": "Achat vérifié" },
+      { "type": "image_picker", "id": "avatar", "label": "Photo (optionnel)" }
+    ]}
+  ],
+  "presets": [ { "name": "Avis dark luxe", "blocks": [ { "type": "avis" }, { "type": "avis" }, { "type": "avis" } ] } ]
+}
+{% endschema %}
