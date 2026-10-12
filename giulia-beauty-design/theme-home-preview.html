@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Giulia Beauty — Dark Luxe</title>
+<meta name="description" content="Homepage dark luxe ambré pour Giulia Beauty — soins premium, animations GSAP." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#120C08;--bg2:#1A1209;--panel:#1C140C;--card:#1E160D;
+    --amber:#C98A3B;--amber-lite:#D9A152;--gold:#E8C07D;
+    --cream:#F3E7D3;--muted:#B59B78;--line:rgba(232,192,125,.18);--btn-dark:#0C0906;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Jost',system-ui,sans-serif;background:var(--bg);color:var(--cream);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.6}
+  .serif{font-family:'Cormorant Garamond',Georgia,serif}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1.3rem,4vw,3rem)}
+  section{padding:clamp(4.5rem,9vw,8rem) 0}
+  .eyebrow{font-size:.74rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold)}
+  .btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2.1rem;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;cursor:pointer;border:1px solid transparent;transition:transform .3s,box-shadow .3s,background .3s}
+  .btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#2A1A08;box-shadow:0 10px 30px rgba(201,138,59,.3)}
+  .btn-gold:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,138,59,.45)}
+  .btn-ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+  .btn-ghost:hover{transform:translateY(-3px);background:#1a120a}
+  .reveal{opacity:0;transform:translateY(26px)}
+
+  /* ===== Announcement + Nav ===== */
+  .announce{text-align:center;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);padding:.7rem;border-bottom:1px solid var(--line);background:#0E0905}
+  header{position:sticky;top:0;z-index:50;background:rgba(18,12,8,.7);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem clamp(1.3rem,4vw,3rem)}
+  .brand{line-height:.92}
+  .brand .b1{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;letter-spacing:.14em}
+  .brand .b2{font-size:.66rem;letter-spacing:.5em;color:var(--muted);padding-left:.2em}
+  .menu{display:flex;gap:2rem;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
+  .menu a{opacity:.85;transition:opacity .3s;position:relative;padding:.3rem 0}
+  .menu a:hover{opacity:1}
+  .menu a:hover::after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:1px;background:var(--gold)}
+  .nav-icons{display:flex;gap:1.3rem;opacity:.85}
+  .burger{display:none;background:none;border:none;color:var(--cream);font-size:1.3rem}
+
+  /* ===== Hero ===== */
+  .hero{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden}
+  .hero .scene{position:absolute;inset:0;z-index:0;overflow:hidden}
+  .hero .liquid{position:absolute;inset:-12%;transform-origin:62% 55%;
+    background:radial-gradient(60% 50% at 64% 55%,rgba(217,161,82,.55),transparent 60%),radial-gradient(45% 40% at 40% 38%,rgba(232,192,125,.32),transparent 65%),radial-gradient(120% 120% at 70% 80%,#3A2410,#1A1006 45%,#0C0804)}
+  .hero canvas{position:absolute;inset:0;width:100%;height:100%}
+  .hero .vignette{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 45%,transparent 40%,rgba(8,5,3,.72) 100%)}
+  .hero .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,6,3,.82),rgba(10,6,3,.45) 40%,transparent 62%)}
+  .hero .wrap{position:relative;z-index:2}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(3rem,7.5vw,5.8rem);line-height:.96;margin:1rem 0 1.4rem;max-width:12ch}
+  .hero h1 em{font-style:italic;color:var(--gold)}
+  .hero p{color:var(--muted);font-size:1.06rem;max-width:40ch;margin-bottom:2.2rem;font-weight:300}
+  .hero .actions{display:flex;gap:1rem;flex-wrap:wrap}
+
+  /* ===== Marquee ===== */
+  .marquee{border-block:1px solid var(--line);background:#0E0905;padding:1rem 0;overflow:hidden;white-space:nowrap}
+  .mtrack{display:inline-flex;gap:3rem;animation:mv 24s linear infinite}
+  .mtrack span{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;color:var(--gold);opacity:.75}
+  @keyframes mv{to{transform:translateX(-50%)}}
+
+  /* ===== Section head ===== */
+  .shead{text-align:center;max-width:640px;margin:0 auto clamp(2.5rem,5vw,4rem)}
+  .shead h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.2rem,5vw,3.6rem);margin:.7rem 0;line-height:1.05}
+  .shead p{color:var(--muted)}
+
+  /* ===== Products ===== */
+  .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
+  .prod{background:var(--card);border:1px solid var(--line);border-radius:4px;overflow:hidden;transition:transform .4s,box-shadow .4s,border-color .4s}
+  .prod:hover{transform:translateY(-8px);box-shadow:0 26px 50px rgba(0,0,0,.5);border-color:rgba(232,192,125,.4)}
+  .prod .thumb{aspect-ratio:1;position:relative;overflow:hidden}
+  .prod .thumb .ph{position:absolute;inset:0;transition:transform .7s}
+  .prod:hover .thumb .ph{transform:scale(1.06)}
+  .prod .badge{position:absolute;top:12px;left:12px;background:rgba(12,8,5,.7);backdrop-filter:blur(4px);color:var(--gold);font-size:.64rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.35rem .7rem;border:1px solid var(--line)}
+  .prod .body{padding:1.1rem 1.2rem 1.4rem}
+  .prod .cat{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .prod h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;margin:.25rem 0 .4rem}
+  .prod .stars{color:var(--gold);font-size:.78rem;letter-spacing:.1em}
+  .prod .price{display:flex;align-items:center;gap:.55rem;margin-top:.5rem;font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold)}
+  .prod .price del{color:var(--muted);font-size:.9rem}
+  .prod .add{width:100%;justify-content:center;margin-top:.9rem}
+  .g1{background:linear-gradient(160deg,#3A2410,#8a5a24)}
+  .g2{background:linear-gradient(160deg,#241a2e,#5b4a7a)}
+  .g3{background:linear-gradient(160deg,#2e1a1a,#7a4a4a)}
+  .g4{background:linear-gradient(160deg,#2a2010,#a07a3a)}
+
+  /* ===== Story ===== */
+  .story{background:var(--bg2)}
+  .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
+  .svis{position:relative;aspect-ratio:4/5;border-radius:4px;overflow:hidden;background:radial-gradient(circle at 60% 40%,#D9A152,#3A2410 70%)}
+  .svis .pz{position:absolute;inset:-10%;background:radial-gradient(circle at 70% 30%,rgba(255,243,214,.4),transparent 55%)}
+  .svis canvas{position:absolute;inset:0}
+  .story h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2rem,4.2vw,3.2rem);margin:.7rem 0 1.2rem;line-height:1.05}
+  .story p{color:var(--muted);margin-bottom:1.5rem;font-weight:300}
+  .frow{display:flex;gap:1rem;margin-bottom:1.1rem;align-items:flex-start}
+  .frow .ic{flex:none;width:46px;height:46px;border:1px solid var(--line);display:grid;place-items:center;color:var(--gold);font-size:1.1rem}
+  .frow strong{font-family:'Cormorant Garamond',serif;font-size:1.2rem}
+  .frow small{color:var(--muted)}
+
+  /* ===== Testimonials ===== */
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+  .quote{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:2rem}
+  .quote .stars{color:var(--gold);letter-spacing:.1em}
+  .quote p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem;line-height:1.4;margin:.9rem 0 1.4rem}
+  .quote .who{display:flex;gap:.8rem;align-items:center}
+  .quote .av{width:44px;height:44px;border-radius:999px;background:radial-gradient(circle at 40% 35%,#D9A152,#5b3a18)}
+  .quote .who strong{font-size:.92rem}
+  .quote .who small{display:block;color:var(--muted);font-size:.74rem}
+
+  /* ===== Newsletter ===== */
+  .news{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:6px;padding:clamp(2.6rem,6vw,4.6rem);text-align:center;background:radial-gradient(circle at 50% 0%,#241708,#120C08 70%)}
+  .news::before{content:'';position:absolute;width:340px;height:340px;border-radius:50%;background:var(--amber);filter:blur(90px);opacity:.3;top:-140px;right:-40px}
+  .news h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2rem,4.5vw,3.2rem);position:relative}
+  .news p{color:var(--muted);max-width:44ch;margin:.8rem auto 2rem;position:relative}
+  .news form{display:flex;gap:.6rem;max-width:480px;margin:0 auto;position:relative;flex-wrap:wrap;justify-content:center}
+  .news input{flex:1;min-width:220px;padding:1rem 1.3rem;border:1px solid var(--line);background:#0C0906;color:var(--cream);font-family:inherit}
+  .news input::placeholder{color:var(--muted)}
+  .news input:focus{outline:1px solid var(--gold)}
+
+  /* ===== Footer ===== */
+  footer{border-top:1px solid var(--line);padding:clamp(3rem,6vw,5rem) 0 2rem;background:#0E0905}
+  .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2rem;margin-bottom:3rem}
+  .fgrid h4{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+  .fgrid ul{list-style:none;display:grid;gap:.55rem;font-size:.9rem}
+  .fgrid a{color:var(--cream);opacity:.8}
+  .fgrid a:hover{color:var(--gold);opacity:1}
+  .fbot{border-top:1px solid var(--line);padding-top:1.5rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
+
+  @media(max-width:900px){
+    .menu,.nav-icons{display:none}.burger{display:block}
+    .pgrid{grid-template-columns:repeat(2,1fr)}
+    .sgrid{grid-template-columns:1fr}.svis{order:-1;max-width:460px;margin-inline:auto}
+    .quotes{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:520px){.pgrid{grid-template-columns:1fr 1fr;gap:1rem}.fgrid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important}.mtrack{animation:none}*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="announce">Édition limitée · Livraison offerte dès 49€ — code <strong>GIULIA15</strong></div>
+
+<header>
+  <nav>
+    <div class="brand"><div class="b1">GIULIA</div><div class="b2">BEAUTY</div></div>
+    <div class="menu"><a href="#shop">Soins</a><a href="#shop">Parfums</a><a href="#story">Rituels</a><a href="#avis">Avis</a><a href="#story">Histoire</a></div>
+    <div class="nav-icons"><span>⌕</span><span>♡</span><span>⛬</span></div>
+    <button class="burger">☰</button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="scene">
+    <div class="liquid" id="liquid"></div>
+    <canvas id="heroCanvas"></canvas>
+    <div class="vignette"></div><div class="shade"></div>
+  </div>
+  <div class="wrap">
+    <div class="eyebrow reveal">Premium Skincare</div>
+    <h1 class="reveal">Rituel Éclat <em>N°07</em></h1>
+    <p class="reveal">Une essence précieuse à la rose de Damas et à l'or végétal. Révélez un teint lumineux, nourri en profondeur — la beauté consciente, sublimée.</p>
+    <div class="actions reveal"><a href="#shop" class="btn btn-gold">Découvrir le N°07</a><a href="#story" class="btn btn-ghost">Notre rituel</a></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true"><div class="mtrack">
+  <span>Vegan</span><span>·</span><span>Cruelty-free</span><span>·</span><span>Made in France</span><span>·</span><span>Sans parabènes</span><span>·</span><span>Rechargeable</span><span>·</span>
+  <span>Vegan</span><span>·</span><span>Cruelty-free</span><span>·</span><span>Made in France</span><span>·</span><span>Sans parabènes</span><span>·</span><span>Rechargeable</span><span>·</span>
+</div></div>
+
+<!-- SHOP -->
+<section id="shop">
+  <div class="wrap">
+    <div class="shead"><div class="eyebrow reveal">La collection</div><h2 class="reveal">Perfezione Nude</h2><p class="reveal">Technologie beauté, rituel d'exception — vos produits réels.</p></div>
+    <div class="pgrid"><article class="prod reveal"><div class="thumb"><img class="ph" style="object-fit:cover" src="https://cdn.shopify.com/s/files/1/0998/5156/7437/files/H85aea62ba4104658902625a7c293e76d0.webp?v=1791276701" alt="Lipstick Epilatore Viso e Sopracciglia" loading="eager"><span class="badge">Nouveau</span></div><div class="body"><div class="cat">Épilation</div><h3>Lipstick Epilatore Viso e Sopracciglia</h3><div class="stars">★★★★★</div><div class="price">29,99 €</div><button class="btn btn-gold add">Ajouter</button></div></article><article class="prod reveal"><div class="thumb"><img class="ph" style="object-fit:cover" src="https://cdn.shopify.com/s/files/1/0998/5156/7437/files/f052975e951322899ceea2452aaf24b244b613f0.webp?v=1791292932" alt="Face Lift LED — Dispositivo Viso" loading="eager"></div><div class="body"><div class="cat">Soin visage</div><h3>Face Lift LED — Dispositivo Viso</h3><div class="stars">★★★★★</div><div class="price">44,99 €</div><button class="btn btn-gold add">Ajouter</button></div></article><article class="prod reveal"><div class="thumb"><img class="ph" style="object-fit:cover" src="https://cdn.shopify.com/s/files/1/0998/5156/7437/files/0cae45aa77a9f62ae9f701b74c6363c16f72ab6c.jpg?v=1791292934" alt="Mini Piastra 2 in 1" loading="eager"><span class="badge">Best-seller</span></div><div class="body"><div class="cat">Cheveux</div><h3>Mini Piastra 2 in 1</h3><div class="stars">★★★★★</div><div class="price">49,89 €</div><button class="btn btn-gold add">Ajouter</button></div></article><article class="prod reveal"><div class="thumb"><img class="ph" style="object-fit:cover" src="https://cdn.shopify.com/s/files/1/0998/5156/7437/files/a78e13959001ca242ec2600afcc56da00747854d.jpg?v=1791292935" alt="Epilatore 4 in 1 Silent" loading="eager"></div><div class="body"><div class="cat">Épilation</div><h3>Epilatore 4 in 1 Silent</h3><div class="stars">★★★★★</div><div class="price">49,89 €</div><button class="btn btn-gold add">Ajouter</button></div></article><article class="prod reveal"><div class="thumb"><img class="ph" style="object-fit:cover" src="https://cdn.shopify.com/s/files/1/0998/5156/7437/files/169ab41050cc43e8fc12544faccd35e73d4900e5.jpg?v=1791292936" alt="Finishing Touch — Depilatore Portatile" loading="eager"></div><div class="body"><div class="cat">Épilation</div><h3>Finishing Touch — Depilatore Portatile</h3><div class="stars">★★★★★</div><div class="price">34,89 €</div><button class="btn btn-gold add">Ajouter</button></div></article><article class="prod reveal"><div class="thumb"><img class="ph" style="object-fit:cover" src="https://cdn.shopify.com/s/files/1/0998/5156/7437/files/5ce27611cb4c94f1b3d1b1df490ca3178395a81c.jpg?v=1791292938" alt="Piastra Ondulata Pro 80W" loading="eager"></div><div class="body"><div class="cat">Cheveux</div><h3>Piastra Ondulata Pro 80W</h3><div class="stars">★★★★★</div><div class="price">59,89 €</div><button class="btn btn-gold add">Ajouter</button></div></article><article class="prod reveal"><div class="thumb"><img class="ph" style="object-fit:cover" src="https://cdn.shopify.com/s/files/1/0998/5156/7437/files/731c4613f8f3d90f25c99764de44aa2a5c4b45e3.jpg?v=1791292939" alt="Arricciacapelli Regolabile" loading="eager"></div><div class="body"><div class="cat">Cheveux</div><h3>Arricciacapelli Regolabile</h3><div class="stars">★★★★★</div><div class="price">39,89 €</div><button class="btn btn-gold add">Ajouter</button></div></article><article class="prod reveal"><div class="thumb"><img class="ph" style="object-fit:cover" src="https://cdn.shopify.com/s/files/1/0998/5156/7437/files/5c0d194328bc623aa56474e37895f2cd16837c6e.jpg?v=1791292941" alt="Massaggiatore 3 in 1 Viso, Collo e Occhi" loading="eager"></div><div class="body"><div class="cat">Soin visage</div><h3>Massaggiatore 3 in 1 Viso, Collo e Occhi</h3><div class="stars">★★★★★</div><div class="price">49,89 €</div><button class="btn btn-gold add">Ajouter</button></div></article></div></div></section>
+
+<!-- STORY -->
+<section id="story" class="story">
+  <div class="wrap">
+    <div class="sgrid">
+      <div class="svis"><div class="pz" id="storyPz"></div><canvas id="storyCanvas"></canvas></div>
+      <div>
+        <div class="eyebrow reveal">Notre histoire</div>
+        <h2 class="reveal">La beauté, en toute conscience</h2>
+        <p class="reveal">Giulia Beauty est née d'une conviction : prendre soin de soi ne devrait jamais se faire au détriment de la planète. Chaque formule est développée avec des ingrédients d'origine naturelle, dans le respect de votre peau et de l'environnement.</p>
+        <div class="frow reveal"><div class="ic">✦</div><div><strong>Formules clean</strong><br><small>Sans parabènes, silicones ni sulfates.</small></div></div>
+        <div class="frow reveal"><div class="ic">♻</div><div><strong>Éco-responsable</strong><br><small>Packaging rechargeable et recyclable.</small></div></div>
+        <div class="frow reveal"><div class="ic">❀</div><div><strong>Vegan & cruelty-free</strong><br><small>Jamais testé sur les animaux.</small></div></div>
+        <a href="#shop" class="btn btn-gold reveal" style="margin-top:1rem">Explorer nos soins</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AVIS -->
+<section id="avis">
+  <div class="wrap">
+    <div class="shead"><div class="eyebrow reveal">Elles en parlent</div><h2 class="reveal">Aimé par +120 000 clientes</h2></div>
+    <div class="quotes">
+      <div class="quote reveal"><div class="stars">★★★★★</div><p>“Ma peau n'a jamais été aussi lumineuse. Le sérum rosé est devenu mon indispensable.”</p><div class="who"><div class="av"></div><div><strong>Camille L.</strong><small>Achat vérifié</small></div></div></div>
+      <div class="quote reveal"><div class="stars">★★★★★</div><p>“Des textures sublimes, une odeur délicate, et un packaging que je garde sur ma coiffeuse.”</p><div class="who"><div class="av"></div><div><strong>Sofia R.</strong><small>Achat vérifié</small></div></div></div>
+      <div class="quote reveal"><div class="stars">★★★★★</div><p>“Enfin une marque clean qui tient ses promesses. Le coffret rituel vaut le détour.”</p><div class="who"><div class="av"></div><div><strong>Inès M.</strong><small>Achat vérifié</small></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section>
+  <div class="wrap">
+    <div class="news reveal">
+      <h2>Rejoignez le cercle Giulia</h2>
+      <p>–15% sur votre première commande, accès prioritaire aux nouveautés et rituels exclusifs.</p>
+      <form onsubmit="return false"><input type="email" placeholder="Votre adresse e-mail" aria-label="E-mail"><button class="btn btn-gold" type="submit">Je m'inscris</button></form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><div class="brand"><div class="b1">GIULIA</div><div class="b2">BEAUTY</div></div><p style="color:var(--muted);margin-top:.9rem;font-size:.9rem;max-width:32ch;font-weight:300">Cosmétiques clean, vegan et made in France. La beauté consciente au quotidien.</p></div>
+      <div><h4>Boutique</h4><ul><li><a href="#">Soins visage</a></li><li><a href="#">Parfums</a></li><li><a href="#">Coffrets</a></li><li><a href="#">Nouveautés</a></li></ul></div>
+      <div><h4>À propos</h4><ul><li><a href="#">Notre histoire</a></li><li><a href="#">Engagements</a></li><li><a href="#">Ingrédients</a></li><li><a href="#">Journal</a></li></ul></div>
+      <div><h4>Aide</h4><ul><li><a href="#">Livraison</a></li><li><a href="#">Retours</a></li><li><a href="#">Contact</a></li><li><a href="#">FAQ</a></li></ul></div>
+    </div>
+    <div class="fbot"><span>© 2026 Giulia Beauty — Tous droits réservés</span><span>Instagram · TikTok · Pinterest</span></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+gsap.registerPlugin(ScrollTrigger);
+
+/* particules réutilisables sur un canvas */
+function particles(cv, count){
+  const ctx=cv.getContext('2d'); let W,H,parts=[]; const dpr=devicePixelRatio||1;
+  function size(){const r=cv.getBoundingClientRect();W=cv.width=r.width*dpr;H=cv.height=r.height*dpr;}
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  function make(){parts=[];for(let i=0;i<count;i++){const p=Math.random()<.45;parts.push({x:rnd(0,W),y:rnd(0,H),r:p?rnd(9,24)*dpr:rnd(2,5)*dpr,vy:rnd(.1,.5)*dpr,vx:rnd(-.2,.2)*dpr,rot:rnd(0,6.28),vr:rnd(-.01,.01),petal:p,a:p?rnd(.22,.55):rnd(.4,.85)});}}
+  function petal(p){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=p.a;const g=ctx.createLinearGradient(-p.r,0,p.r,0);g.addColorStop(0,'#C77');g.addColorStop(1,'#E8B4A0');ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(0,0,p.r*.55,p.r,0,0,6.28);ctx.fill();ctx.restore();}
+  function drop(p){ctx.save();ctx.globalAlpha=p.a;const g=ctx.createRadialGradient(p.x-p.r*.3,p.y-p.r*.3,0,p.x,p.y,p.r);g.addColorStop(0,'#FFF3D6');g.addColorStop(.5,'#E8C07D');g.addColorStop(1,'rgba(201,138,59,.2)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.28);ctx.fill();ctx.restore();}
+  size();make();addEventListener('resize',()=>{size();make();});
+  function tick(){ctx.clearRect(0,0,W,H);for(const p of parts){p.y-=p.vy;p.x+=p.vx;p.rot+=p.vr;if(p.y<-40*dpr){p.y=H+30*dpr;p.x=rnd(0,W);}p.petal?petal(p):drop(p);}if(!reduce)requestAnimationFrame(tick);}
+  if(!reduce)tick();else parts.forEach(p=>p.petal?petal(p):drop(p));
+}
+particles(document.getElementById('heroCanvas'), innerWidth<720?16:30);
+particles(document.getElementById('storyCanvas'), 14);
+
+if(!reduce){
+  gsap.to('#liquid',{scale:1.16,duration:14,ease:'sine.inOut',yoyo:true,repeat:-1});
+  gsap.to('#storyPz',{yPercent:-12,ease:'none',scrollTrigger:{trigger:'.story',scrub:.6}});
+  gsap.to('.hero .reveal',{opacity:1,y:0,duration:.9,stagger:.12,ease:'power3.out',delay:.15});
+  addEventListener('mousemove',e=>{const dx=e.clientX/innerWidth-.5,dy=e.clientY/innerHeight-.5;gsap.to('#liquid',{xPercent:dx*-4,yPercent:dy*-4,duration:1,ease:'power2.out',overwrite:'auto'});});
+  gsap.utils.toArray('section').forEach(sec=>{const it=sec.querySelectorAll('.reveal');if(!it.length||sec.classList.contains('hero'))return;gsap.to(it,{opacity:1,y:0,duration:.6,stagger:.08,ease:'power2.out',scrollTrigger:{trigger:sec,start:'top 82%'}});});
+} else { document.querySelectorAll('.reveal').forEach(el=>{el.style.opacity=1;el.style.transform='none';}); }
+
+document.querySelectorAll('.add').forEach(b=>b.addEventListener('click',()=>{const t=b.textContent;b.textContent='Ajouté ✓';if(!reduce)gsap.fromTo(b,{scale:.94},{scale:1,duration:.35,ease:'back.out(2)'});setTimeout(()=>b.textContent=t,1400);}));
+</script>
+</body>
+</html>
