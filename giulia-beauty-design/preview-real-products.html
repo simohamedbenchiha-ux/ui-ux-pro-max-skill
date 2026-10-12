@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Giulia Beauty — Aperçu produits réels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120C08;--card:#1E160D;--amber:#C98A3B;--gold:#E8C07D;--cream:#F3E7D3;--muted:#B59B78;--line:rgba(232,192,125,.18)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--cream);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1.3rem,4vw,3rem)}
+  .announce{text-align:center;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);padding:.7rem;border-bottom:1px solid var(--line);background:#0E0905}
+  header{border-bottom:1px solid var(--line);background:rgba(18,12,8,.7)}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem clamp(1.3rem,4vw,3rem);max-width:1240px;margin:0 auto}
+  .brand .b1{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;letter-spacing:.14em}
+  .brand .b2{font-size:.66rem;letter-spacing:.5em;color:var(--muted);padding-left:.2em}
+  .menu{display:flex;gap:2rem;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cream)}
+  .menu span{opacity:.85}
+  .nav-icons{display:flex;gap:1.3rem;opacity:.85}
+  section{padding:clamp(3.5rem,7vw,6rem) 0}
+  .chead{text-align:center;max-width:640px;margin:0 auto clamp(2rem,4vw,3rem)}
+  .eyebrow{font-size:.72rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold)}
+  .chead h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2rem,4.6vw,3.4rem);margin:.6rem 0;line-height:1.05}
+  .chead p{color:var(--muted)}
+  .cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
+  .prod{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:4px;overflow:hidden;transition:transform .4s,box-shadow .4s,border-color .4s}
+  .prod:hover{transform:translateY(-8px);box-shadow:0 26px 50px rgba(0,0,0,.5);border-color:rgba(232,192,125,.4)}
+  .thumb{aspect-ratio:1;position:relative;overflow:hidden;background:#241708}
+  .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s}
+  .prod:hover .thumb img{transform:scale(1.06)}
+  .badge{position:absolute;top:12px;left:12px;background:rgba(12,8,5,.72);backdrop-filter:blur(4px);color:var(--gold);font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.35rem .7rem;border:1px solid var(--line)}
+  .pbody{padding:1.1rem 1.2rem 1.4rem;display:flex;flex-direction:column;flex:1}
+  .cat{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .prod h3{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;margin:.3rem 0 .5rem;line-height:1.2}
+  .price{display:flex;align-items:center;gap:.5rem;font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--gold)}
+  .price del{color:var(--muted);font-size:.85rem}
+  .pbtn{margin-top:auto;padding-top:.9rem}
+  .btn{display:inline-flex;width:100%;justify-content:center;padding:.85rem 1rem;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;background:linear-gradient(135deg,var(--gold),var(--amber));color:#2A1A08;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(201,138,59,.35)}
+  .cmore{text-align:center;margin-top:2.4rem}
+  .cmore a{display:inline-flex;padding:1rem 2.2rem;border:1px solid var(--line);color:var(--cream);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
+  .note{max-width:1240px;margin:1.5rem auto 0;padding:0 clamp(1.3rem,4vw,3rem);color:var(--muted);font-size:.8rem;text-align:center}
+  @media(max-width:900px){.menu,.nav-icons{display:none}.cgrid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.cgrid{grid-template-columns:1fr 1fr;gap:1rem}}
+</style>
+</head>
+<body>
+<div class="announce">Édition limitée · Livraison offerte dès 49€ — code GIULIA15</div>
+<header><nav>
+  <div class="brand"><div class="b1">GIULIA</div><div class="b2">BEAUTY</div></div>
+  <div class="menu"><span>Soins</span><span>Cheveux</span><span>Visage</span><span>Rituels</span></div>
+  <div class="nav-icons"><span>⌕</span><span>♡</span><span>⛬</span></div>
+</nav></header>
+
+<section>
+  <div class="wrap">
+    <div class="chead">
+      <div class="eyebrow">La collection</div>
+      <h2>Perfezione Nude</h2>
+      <p>Technologie beauté, rituel d'exception — produits réels de ton store.</p>
+    </div>
+    <div class="cgrid" id="grid"></div>
+    <div class="cmore"><a href="#">Voir toute la collection</a></div>
+  </div>
+  <div class="note">↑ Aperçu de la section <code>collection-luxe.liquid</code> avec les vrais produits Giulia Beauty (images, titres et prix issus du store).</div>
+</section>
+
+<script>
+// Données réelles récupérées depuis le store Giulia Beauty
+const products = [
+  {t:"Lipstick Epilatore Viso e Sopracciglia", cat:"Épilation", price:"29,99 €", img:"https://cdn.shopify.com/s/files/1/0998/5156/7437/files/H85aea62ba4104658902625a7c293e76d0.webp?v=1791276701", badge:"Nouveau"},
+  {t:"Face Lift LED — Dispositivo Viso", cat:"Soin visage", price:"44,99 €", img:"https://cdn.shopify.com/s/files/1/0998/5156/7437/files/f052975e951322899ceea2452aaf24b244b613f0.webp?v=1791292932", badge:""},
+  {t:"Mini Piastra 2 in 1", cat:"Cheveux", price:"49,89 €", img:"https://cdn.shopify.com/s/files/1/0998/5156/7437/files/0cae45aa77a9f62ae9f701b74c6363c16f72ab6c.jpg?v=1791292934", badge:"Best-seller"},
+  {t:"Epilatore 4 in 1 Silent", cat:"Épilation", price:"49,89 €", img:"https://cdn.shopify.com/s/files/1/0998/5156/7437/files/a78e13959001ca242ec2600afcc56da00747854d.jpg?v=1791292935", badge:""},
+  {t:"Finishing Touch — Depilatore Portatile", cat:"Épilation", price:"34,89 €", img:"https://cdn.shopify.com/s/files/1/0998/5156/7437/files/169ab41050cc43e8fc12544faccd35e73d4900e5.jpg?v=1791292936", badge:""},
+  {t:"Piastra Ondulata Pro 80W", cat:"Cheveux", price:"59,89 €", img:"https://cdn.shopify.com/s/files/1/0998/5156/7437/files/5ce27611cb4c94f1b3d1b1df490ca3178395a81c.jpg?v=1791292938", badge:""},
+  {t:"Arricciacapelli Regolabile", cat:"Cheveux", price:"39,89 €", img:"https://cdn.shopify.com/s/files/1/0998/5156/7437/files/731c4613f8f3d90f25c99764de44aa2a5c4b45e3.jpg?v=1791292939", badge:""},
+  {t:"Massaggiatore 3 in 1 Viso, Collo e Occhi", cat:"Soin visage", price:"49,89 €", img:"https://cdn.shopify.com/s/files/1/0998/5156/7437/files/5c0d194328bc623aa56474e37895f2cd16837c6e.jpg?v=1791292941", badge:""}
+];
+document.getElementById('grid').innerHTML = products.map(p=>`
+  <article class="prod">
+    <div class="thumb"><img src="${p.img}" alt="${p.t}" loading="eager">${p.badge?`<span class="badge">${p.badge}</span>`:''}</div>
+    <div class="pbody"><div class="cat">${p.cat}</div><h3>${p.t}</h3>
+    <div class="price">${p.price}</div>
+    <div class="pbtn"><button class="btn">Ajouter</button></div></div>
+  </article>`).join('');
+</script>
+</body>
+</html>
