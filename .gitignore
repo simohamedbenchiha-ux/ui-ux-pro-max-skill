@@ -57,3 +57,6 @@ ui-ux-pro-max-website/*
 
 cli/playwright-report/
 cli/test-results/
+
+# Giulia Beauty deliverables (non code, not part of this repo)
+/giulia-beauty-theme/
